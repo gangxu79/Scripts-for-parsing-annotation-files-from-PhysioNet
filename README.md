@@ -13,7 +13,8 @@ The csv format for sleep stage contains only one column data of numeric values, 
 * 5 REM
 * 6	Unscored
 The csv format for scored events contains 3 columns with variable type of character, numeric and numeric.
-Example:
+
+### Example:
 ------------------------------------------------
 Type          Start Time          Duration
 Apnea         18200               30
