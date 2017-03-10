@@ -33,17 +33,19 @@ library(tools)
 # 6	Unscored
 
 # set current working folder
-setwd('./')
+setwd('C:/Users/gaxu/Documents/R/slpdb')
 rm(list = ls())
 # read annotation text file from PhysioNet 
 # St. Vincent's University Hospital / University College Dublin Sleep Apnea Database
 
 # read file
-filename <- 'https://physionet.org/atm/slpdb/slp03/st/0/e/rdann/e/annotations.txt'
+filename <- 'slp67x.txt'
 ann <- readLines(filename)
 # remove header
 ann <- ann[-1]
 nrow <- length(ann)
+# sample rate
+fs <- 250
 # constant
 period <- 30
 eventname <- c('Hypopnea',
@@ -78,7 +80,7 @@ for (i in 1:length(ann))
 {
     strings <- unlist(strsplit(ann[i], split = '\t'))
     aux <- strings[2]
-
+    
     # parse sleep stage
     tmpstr <- unlist(strsplit(aux, split = '\\s+'))
     stage <- tmpstr[1]
@@ -143,6 +145,12 @@ for (i in 1:length(ann))
         }
     }
 }
+# if the annotation NOT start from beginning
+tmpstr <- unlist(strsplit(ann[1], split = '\t'))
+tmpstr <- unlist(strsplit(tmpstr[1], split = ']'))
+tmpstr <- unlist(strsplit(trimws(tmpstr[2]), split = '\\s+'))
+vac <- as.integer(as.numeric(tmpstr[1])/fs/30)
+sleepstages <- rbind(data.frame(stage = rep(6,vac)),sleepstages)
 
 # reorganize scored events
 for (i in 1:ncol(allevents))
@@ -163,7 +171,7 @@ for (i in 1:ncol(allevents))
                 starttime <- sum(len[1:(tidx[j]-1)])
             }
             # event name, start time, duration
-            events[nrow(events)+1,] <- c(eventname[i], starttime*period, len[tidx[j]]*period)
+            events[nrow(events)+1,] <- c(eventname[i], (starttime+vac)*period, len[tidx[j]]*period)
         }
     }
 }
