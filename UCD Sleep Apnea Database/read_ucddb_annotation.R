@@ -4,6 +4,7 @@ library(tools)
 library(xlsx)
 
 setwd(Sys.getenv("HOME"))
+setwd('./R/ucddb')
 rm(list = ls())
 # read record start time from subject detail spreadsheet file
 filename <- './SubjectDetails.xls'
