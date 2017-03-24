@@ -5,7 +5,7 @@ setwd(path.expand('~'))
 setwd('../Dropbox/Work/Programming/R/ECM')
 
 # file name
-filename <- 'ltdb14172.txt'
+filename <- 'afdb06426_beat_annotation.txt'
 
 # read header
 header <- readLines(filename, n = 1)
@@ -31,11 +31,17 @@ type <- character(length(content))
 # create a variable named peakindex with same length of content
 peakindex <- rep(NaN,length(content))
 
+# create a variable named rhythmchange with same length of content
+rhythmchange <- character(length(content))
+
+# create a variable named sampleindex with same length of content
+sampleindex <- rep(NaN,length(content))
+
 # beat and non-beat annotation definition
 # https://www.physionet.org/physiobank/annotations.shtml
 beat_annotation <- factor(levels = c('N','L','R','B','A','a','J','S','V','r','F','e','j','n','E','/','f','Q','?'))
 nonbeat_annotation <- factor(levels = c('[','!',']','x','(',')','p','t','u','`','\'','^','|','~','+','s','T','*','D','=','\"','@'))
-
+rhythm_change_annotation <- factor(levels = c('(AB','(AFIB','(AFL','(B','(BII','(IVR','(N','(NOD','(P','(PREX','(SBR','(SVTA','(T','(VFL','(VT'))
 
 # read annotation and parse content iteratively
 for (i in 1:length(content))
@@ -50,12 +56,14 @@ for (i in 1:length(content))
     if (ann %in% levels(beat_annotation))
     # beat annotation
     {
-      type[i] <- ann
-      peakindex[i] <- as.numeric(substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2])))
+        type[i] <- ann
+        peakindex[i] <- as.numeric(substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2])))
     } else (ann %in% levels(nonbeat_annotation))
     # rhythm annotation
     {
-      
+        type[i] <- ann
+        rhythmchange[i] <- tmp[2]
+        sampleindex[i] <- as.numeric(substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2])))
     }
 }
 
@@ -63,10 +71,14 @@ for (i in 1:length(content))
 peakindex <- na.omit(peakindex)
 
 # write peak index into csv file
-write.table(peakindex,
-            sep = ',',
-            file = paste0(file_path_sans_ext(basename(filename)),
-                          '_beat_annotation.csv'),
-            col.names = FALSE,
-            row.names = FALSE,
-            append = FALSE)
+if (length(peakindex) > 0)
+{
+    write.table(peakindex,
+                sep = ',',
+                file = paste0(file_path_sans_ext(basename(filename)),
+                              '_beat_annotation.csv'),
+                col.names = FALSE,
+                row.names = FALSE,
+                append = FALSE)
+}
+
