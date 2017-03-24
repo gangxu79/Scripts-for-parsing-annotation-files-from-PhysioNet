@@ -31,8 +31,9 @@ All the scripts were coded in **R language**. You can download [R software](http
 1. Download and install latest version of R (https://cloud.r-project.org/) for your operating system.
 2. Download and install latest version of RStudio (https://www.rstudio.com/products/rstudio/download/) for your operating system.
 3. Download script from the GitHub folder for the database you intent to analysis, and open it in RStudio.
-4. Download annotation text file to your computer or just paste hyperlink of the file in the R code.
-5. Run the whole R code with **Source** button on the top right of editor window.
+4. Install packages if not exist in environment.
+5. Download annotation text file to your computer or just paste hyperlink of the file in the R code.
+6. Run the whole R code with **Source** button on the top right of editor window.
 
 # Things to know
 * The packages require to be installed in RStudio before the first time you run the code.
