@@ -7,6 +7,9 @@ setwd('../Dropbox/Work/Programming/R/ECM')
 # file name
 filename <- 'afdb06426_rhythm_annotation.txt'
 
+# sample rate
+fs = 250;
+
 # assign customized variable type and index
 CustomizedType <- c('(AFIB','(AFL')
 CustomizedIndex <- c(21,22)
@@ -68,9 +71,6 @@ for (i in 1:length(content))
     }
 }
 
-# only keep valid beat annotation values
-peakindex <- na.omit(peakindex)
-
 # convert to customized format
 # remove if first annotation is Normal
 if (rhythmchange[1] == '(N')
@@ -108,6 +108,9 @@ for (i in 1:length(rhythmchange))
 
 # remove NaN
 Custom_Annotation <- Custom_Annotation[!is.nan(Custom_Annotation$type),]
+
+# convert sample to second
+Custom_Annotation$index <- Custom_Annotation$index/fs;
 
 # write rhythm annotation into csv file
 if (nrow(Custom_Annotation) > 0)
