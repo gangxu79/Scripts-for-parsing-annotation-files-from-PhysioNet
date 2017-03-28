@@ -1,19 +1,32 @@
 library(tools)
 
+###############################################################################
+# customized parameters
+###############################################################################
 # set working directory
 setwd(path.expand('~'))
-setwd('../Dropbox/Work/Programming/R/ECM')
+setwd('./R/')
 
 # file name
-filename <- 'afdb06426_rhythm_annotation.txt'
+filename <- 'afdb04908_rhythm.txt'
 
 # sample rate
 fs = 250;
 
-# assign customized variable type and index
+# assign customized variable type in PhysioNet definition
+# https://www.physionet.org/physiobank/annotations.shtml
+# assigned string should be in the list below
+# '(AB','(AFIB','(AFL','(B','(BII','(IVR','(N','(NOD','(P','(PREX','(SBR','(SVTA','(T','(VFL','(VT'
 CustomizedType <- c('(AFIB','(AFL')
+
+# assign index between 1 ~ 24 in ECM Toolbox
 CustomizedIndex <- c(21,22)
 
+
+
+###############################################################################
+# interpret annotation
+###############################################################################
 # read header
 header <- readLines(filename, n = 1)
 
@@ -67,7 +80,10 @@ for (i in 1:length(content))
     {
         type[i] <- ann
         rhythmchange[i] <- tmp[2]
-        sampleindex[i] <- as.numeric(substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2])))
+        tmpstr <- substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2]))
+        tmpstr <- unlist(strsplit(trimws(tmpstr),' '))
+        tmpstr <- tmpstr[length(tmpstr)]
+        sampleindex[i] <- as.numeric(tmpstr)
     }
 }
 
@@ -110,7 +126,7 @@ for (i in 1:length(rhythmchange))
 Custom_Annotation <- Custom_Annotation[!is.nan(Custom_Annotation$type),]
 
 # convert sample to second
-Custom_Annotation$index <- Custom_Annotation$index/fs;
+#Custom_Annotation$index <- Custom_Annotation$index/fs;
 
 # write rhythm annotation into csv file
 if (nrow(Custom_Annotation) > 0)
