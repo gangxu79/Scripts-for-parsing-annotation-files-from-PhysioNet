@@ -126,7 +126,7 @@ for (i in 1:length(rhythmchange))
 Custom_Annotation <- Custom_Annotation[!is.nan(Custom_Annotation$type),]
 
 # convert sample to second
-#Custom_Annotation$index <- Custom_Annotation$index/fs;
+Custom_Annotation$index <- Custom_Annotation$index/fs;
 
 # write rhythm annotation into csv file
 if (nrow(Custom_Annotation) > 0)
