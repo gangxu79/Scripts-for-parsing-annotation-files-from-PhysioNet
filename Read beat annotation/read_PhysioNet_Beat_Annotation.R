@@ -1,12 +1,18 @@
 library(tools)
 
+###############################################################################
+# customized parameters
+###############################################################################
 # set working directory
 setwd(path.expand('~'))
-setwd('../Dropbox/Work/Programming/R/ECM')
+setwd('./R/')
 
 # file name
-filename <- 'afdb06426_beat_annotation.txt'
+filename <- 'afdb04043_beat.txt'
 
+###############################################################################
+# interpret annotation
+###############################################################################
 # read header
 header <- readLines(filename, n = 1)
 
@@ -57,13 +63,10 @@ for (i in 1:length(content))
     # beat annotation
     {
         type[i] <- ann
-        peakindex[i] <- as.numeric(substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2])))
-    } else (ann %in% levels(nonbeat_annotation))
-    # rhythm annotation
-    {
-        type[i] <- ann
-        rhythmchange[i] <- tmp[2]
-        sampleindex[i] <- as.numeric(substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2])))
+        tmpstr <- substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2]))
+        tmpstr <- unlist(strsplit(trimws(tmpstr),' '))
+        tmpstr <- tmpstr[length(tmpstr)]
+        peakindex[i] <- as.numeric(tmpstr)
     }
 }
 
