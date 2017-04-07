@@ -79,7 +79,7 @@ if (length(peakindex) > 0)
     write.table(peakindex,
                 sep = ',',
                 file = paste0(file_path_sans_ext(basename(filename)),
-                              '_beat_annotation.csv'),
+                              '.csv'),
                 col.names = FALSE,
                 row.names = FALSE,
                 append = FALSE)
