@@ -44,7 +44,7 @@ cat('String  Description
 (AFIB   Atrial fibrillation
 (AFL    Atrial flutter
 (B      Ventricular bigeminy
-(BII    2° heart block
+(BII    2 heart block
 (IVR    Idioventricular rhythm
 (N      Normal sinus rhythm
 (NOD    Nodal (A-V junctional) rhythm
@@ -180,7 +180,7 @@ Custom_Annotation$index <- Custom_Annotation$index/fs;
 # write rhythm annotation into csv file
 if (nrow(Custom_Annotation) > 0)
 {
-    outputfile <- tclvalue(tkgetSaveFile(initialfile = file.path(inputfolder,paste0(inputfilename,'_rhythm.csv')),
+    outputfile <- tclvalue(tkgetSaveFile(initialfile = file.path(inputfolder,paste0(inputfilename,'.csv')),
                                          filetypes = "{ {Comma separated value files} {.csv} }"))
     if (outputfile == "")
     {
