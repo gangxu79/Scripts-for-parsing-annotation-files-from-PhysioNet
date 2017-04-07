@@ -134,7 +134,7 @@ if (nrow(Custom_Annotation) > 0)
     write.table(Custom_Annotation,
                 sep = ',',
                 file = paste0(file_path_sans_ext(basename(filename)),
-                              '_rhythm_annotation.csv'),
+                              '.csv'),
                 col.names = FALSE,
                 row.names = FALSE,
                 append = FALSE)
