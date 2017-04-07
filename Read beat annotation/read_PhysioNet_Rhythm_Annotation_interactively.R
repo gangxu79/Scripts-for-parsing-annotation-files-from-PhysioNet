@@ -177,6 +177,9 @@ Custom_Annotation <- Custom_Annotation[!is.nan(Custom_Annotation$type),]
 # convert sample to second
 Custom_Annotation$index <- Custom_Annotation$index/fs;
 
+# print message to show execution finished
+print('Interpretation finished, please save variables into csv file.')
+
 # write rhythm annotation into csv file
 if (nrow(Custom_Annotation) > 0)
 {
