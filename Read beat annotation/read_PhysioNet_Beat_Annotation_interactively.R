@@ -84,7 +84,7 @@ peakindex <- na.omit(peakindex)
 # write peak index into csv file
 if (length(peakindex) > 0)
 {
-    outputfile <- tclvalue(tkgetSaveFile(initialfile = file.path(inputfolder,paste0(inputfilename,'_beat.csv')),
+    outputfile <- tclvalue(tkgetSaveFile(initialfile = file.path(inputfolder,paste0(inputfilename,'.csv')),
                                          filetypes = "{ {Comma separated value files} {.csv} }"))
     if (outputfile == "")
     {
