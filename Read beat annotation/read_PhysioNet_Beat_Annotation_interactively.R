@@ -81,6 +81,9 @@ for (i in 1:length(content))
 # only keep valid beat annotation values
 peakindex <- na.omit(peakindex)
 
+# print message to show execution finished
+print('Interpretation finished, please save variables into csv file.')
+
 # write peak index into csv file
 if (length(peakindex) > 0)
 {
