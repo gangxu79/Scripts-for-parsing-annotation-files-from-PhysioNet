@@ -8,7 +8,7 @@ setwd(path.expand('~'))
 setwd('./R/')
 
 # file name
-filename <- 'afdb04908_rhythm.txt'
+filename <- 'mitdb_202.txt'
 
 # sample rate
 fs = 250;
@@ -45,6 +45,9 @@ content <- readLines(filename)
 # remove header
 content <- content[-1]
 
+# create a variable named peakindex with same length of content
+peakindex <- rep(NaN,length(content))
+
 # create a variable named type with same length of content
 type <- character(length(content))
 
@@ -75,7 +78,7 @@ for (i in 1:length(content))
     {
         type[i] <- ann
         peakindex[i] <- as.numeric(substr(tmp[1],colwidth[1]+1,sum(colwidth[1:2])))
-    } else (ann %in% levels(nonbeat_annotation))
+    } else if (ann == '+')
     # rhythm annotation
     {
         type[i] <- ann
@@ -86,6 +89,10 @@ for (i in 1:length(content))
         sampleindex[i] <- as.numeric(tmpstr)
     }
 }
+
+# remove empty element in the variable rhythmchange and sampleindex
+rhythmchange <- rhythmchange[rhythmchange!='']
+sampleindex <- sampleindex[!is.na(sampleindex)]
 
 # convert to customized format
 # remove if first annotation is Normal
